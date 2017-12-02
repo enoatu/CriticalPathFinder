@@ -1,4 +1,4 @@
-@media screen and (min-width:0px) {
+/*@media screen and (min-width:0px) {*/
     /*基本　スマホ用*/
     body{
 
@@ -8,19 +8,58 @@
     }
 
     #tooltab{
-        id
+        /*position:fixed;*/
+        display: flex;
+        height:300px;
+        width:100%;
+        background-color: #fac8f1;
     }
-    #move{
-        background-color: lime;
-        width:200px;
-        height:200px;
+    #field{
+
+        height:100%;
+        width:400px;
+        background-color: #defa76;
+
+    }
+    .move{
+
+
+    }
+    .cir{
+        border-radius: 100%;
+        width:170px;
+        height:170px; background-color: lime;
+        cursor:pointer;
+
+    }
+
+    #ori{
+        font-size: 2em;
+        text-align: center;
+        line-height: 150px;
+    }
+    #start{
+        font-size: 2em;
+        text-align: center;
+        line-height: 150px;
+        position: absolute;
+        left:5%;
+        top:50%;
+    }
+    #goal{
+        font-size: 2em;
+        text-align: center;
+        line-height: 150px;
+        position: absolute;
+        right:5%;
+        top:50%;
     }
 
 
 
 
-}
+/*}*/
 
-@media screen and (min-width:1024px) {
-    /*パソコン修正用*/
-}
+/*@media screen and (min-width:1024px) {*/
+    /*!*パソコン修正用*!*/
+/*}*/
