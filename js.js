@@ -7,9 +7,9 @@ move();
 function move(){
     $('.move').draggable();
 }
-$('#ori').on('click',function () {
-    $('#m').append("<div class='move cir'>" +
-        "<textarea placeholder='入力してください' id='cir"+ countcir+"' onclick='getid(this)'></textarea></div>");
+$('#ori').on('click',function () {//created move elements
+    $('#mv').append("<div class='move cir' id='cir " +countcir+"' onclick='getid(this)'>" +
+        "<textarea placeholder='入力してください'></textarea></div>");
     countcir++;
     move();
 });
@@ -18,13 +18,19 @@ $('#resetbutton').on('click',function () {
     location.reload();
 });
 
-$('#drawon').on('click',function () {
-if($('input[name=drawRadio]:checked').val() === 'on'){
+$('#selectdraw').on('click',function () {
+      if($('input[name=drawRadio]:checked').val() === 'on'){
     todraw=true;
-    console.log(todraw);
+    console.log("todraw : "+todraw);
     $('.move').draggable("disable");
-    startfinish=true;
+    startfinish="start";
+}else if($('input[name=drawRadio]:checked').val() === 'off'){
+          todraw=false;
+          console.log("todraw : "+todraw);
+          $('.move').draggable();
+          startfinish=null;
 }
+
 });
 var id;
 function getid(a) {
@@ -43,10 +49,14 @@ var cs=null,
     cfHeight=null,
     center2=null;
 
-$('.move').on("click",function () {
+$('#mv').on("click",".move",function () {
+    console.log("startfinish : "+startfinish);
     if(startfinish==="start"){//startpoint
-        cs = document.get
-        csx = cs.getContext('2d');
+        console.log("start ");
+        // cs = document.getElementById(getid(this));
+        cs= document.getElementById('myCanvas');
+        console.log("this : "+this);
+         csx = cs.getContext('2d');
      csWidth  = cs.width;
      csHeight = cs.height;
      center1   = {
@@ -55,33 +65,34 @@ $('.move').on("click",function () {
      };
         startfinish="finish";
     }else if(startfinish==="finish"){
-        cf = $(this);
-        cfx = cf.getContext('2d');
+        console.log("finish : ");
+        cf = document.getElementById(getid(this));
+        // cfx = cf.getContext('2d');
         cfWidth  = cf.width;
-        cfHeight = cs.height;
-        center   = {
-            x: csWidth / 2,
-            y: csHeight / 2
+        cfHeight = cf.height;
+        center2   = {
+            x: cfWidth / 2,
+            y: cfHeight / 2
         };
+        drawLine();
         startfinish=null;
+    }else{
+        console.log("else");
     }
 });
 
 
 var drawLine = function() {
-    ctx.strokeStyle = '#666';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(0, center.y);
-    ctx.lineTo(csWidth, center.y);
-    ctx.closePath();
-    ctx.stroke();
+    
+    cfx.strokeStyle = '#666';
+    cfx.lineWidth = 10;
+    cfx.beginPath();
+    cfx.moveTo(center1.x, center1.y);
+    cfx.lineTo(center2, center2.y);
+    cfx.closePath();
+    cfx.stroke();
 };
-drawLine();
 
-function startpoint() {
-
-}
 
 // // 変数定義
 // var cs       = document.getElementById('myCanvas'),
