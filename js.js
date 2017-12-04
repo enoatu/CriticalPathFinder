@@ -27,7 +27,7 @@ $('#selectdraw').on('click',function () {
 }else if($('input[name=drawRadio]:checked').val() === 'off'){
           todraw=false;
           console.log("todraw : "+todraw);
-          $('.move').draggable();
+          $('.move').draggable("enable");
           startfinish=null;
 }
 
@@ -38,60 +38,77 @@ function getid(a) {
     console.log("id : "+id);
 }
 
-var cs=null,
-    csx=null,
-    csWidth=null,
-    csHeight=null,
-    center1=null,
-    cf=null,
-    cfx=null,
-    cfWidth=null,
-    cfHeight=null,
-    center2=null;
+// var cs=null,
+//     csx=null,
+//     csWidth=null,
+//     csHeight=null,
+//     center1=null,
+//     cf=null,
+//     cfx=null,
+//     cfWidth=null,
+//     cfHeight=null,
+//     center2=null;
 
-$('#mv').on("click",".move",function () {
+var cs       = document.getElementById('myCanvas'),
+    ctx      = cs.getContext('2d');
+
+ctx.strokeStyle = '#666';
+ctx.lineWidth = 1;
+
+var topoffset;
+var leftoffset;
+var topoffset_f;
+var leftoffset_f;
+var LR,TB,LR_f,TB_f;
+console.log("cs.offsetTop : "+cs.offsetTop);
+console.log("cs.offsetLeft : "+cs.offsetLeft);
+
+    $('#mv').on("click",".move",function () {
+
     console.log("startfinish : "+startfinish);
     if(startfinish==="start"){//startpoint
-        console.log("start ");
-        // cs = document.getElementById(getid(this));
-        cs= document.getElementById('myCanvas');
-        console.log("this : "+this);
-         csx = cs.getContext('2d');
-     csWidth  = cs.width;
-     csHeight = cs.height;
-     center1   = {
-         x: csWidth / 2,
-         y: csHeight / 2
-     };
+        topoffset =  $(this).offset().top;
+        leftoffset = $(this).offset().left;
+         LR = topoffset-cs.offsetTop;
+         TB = leftoffset-cs.offsetLeft;
+
+        console.log("start "+" topoffset : "+topoffset+
+                    " leftoffset : "+leftoffset
+                    +" LR : "+LR+" TB : "+TB);
+
         startfinish="finish";
+
     }else if(startfinish==="finish"){
-        console.log("finish : ");
-        cf = document.getElementById(getid(this));
-        // cfx = cf.getContext('2d');
-        cfWidth  = cf.width;
-        cfHeight = cf.height;
-        center2   = {
-            x: cfWidth / 2,
-            y: cfHeight / 2
-        };
+        topoffset_f =  $(this).offset().top;
+        leftoffset_f = $(this).offset().left;
+         LR_f =topoffset_f-cs.offsetTop;
+         TB_f = leftoffset_f-cs.offsetLeft;
+
+        console.log("finish "+
+                        " topoffset_f : "+topoffset_f+
+                        " leftoffset_f : "+leftoffset_f+
+                        " LR_f : "+LR_f+" TB_f : "+TB_f);
         drawLine();
         startfinish=null;
+
     }else{
         console.log("else");
     }
 });
 
-
 var drawLine = function() {
-    
-    cfx.strokeStyle = '#666';
-    cfx.lineWidth = 10;
-    cfx.beginPath();
-    cfx.moveTo(center1.x, center1.y);
-    cfx.lineTo(center2, center2.y);
-    cfx.closePath();
-    cfx.stroke();
+    console.log("draw_now ");
+    ctx.beginPath();
+    // ctx.moveTo(leftOffset,topOffset);
+    // ctx.lineTo(leftOffset_f,topOffset_f);
+    // ctx.moveTo(LR ,TB);
+    // ctx.lineTo(LR_f,TB_f);
+    ctx.moveTo(0 ,0);
+    ctx.lineTo(200,200);
+    ctx.closePath();
+    ctx.stroke();
 };
+
 
 
 // // 変数定義
