@@ -71,8 +71,10 @@ console.log("cs.offsetLeft : "+cs.offsetLeft);
         leftoffset = $(this).offset().left;
          LR = topoffset-cs.offsetTop;
          TB = leftoffset-cs.offsetLeft;
+         LR=
 
-        console.log("start "+" topoffset : "+topoffset+
+        console.log("start "+
+                    " topoffset : "+topoffset+
                     " leftoffset : "+leftoffset
                     +" LR : "+LR+" TB : "+TB);
 
@@ -84,8 +86,9 @@ console.log("cs.offsetLeft : "+cs.offsetLeft);
          LR_f =topoffset_f-cs.offsetTop;
          TB_f = leftoffset_f-cs.offsetLeft;
 
-        console.log("finish "+
-                        " topoffset_f : "+topoffset_f+
+        console.log("finish ");
+        console.log(
+
                         " leftoffset_f : "+leftoffset_f+
                         " LR_f : "+LR_f+" TB_f : "+TB_f);
         drawLine();
@@ -104,7 +107,7 @@ var drawLine = function() {
     // ctx.moveTo(LR ,TB);
     // ctx.lineTo(LR_f,TB_f);
     ctx.moveTo(0 ,0);
-    ctx.lineTo(200,200);
+    ctx.lineTo(100,100);
     ctx.closePath();
     ctx.stroke();
 };
