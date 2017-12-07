@@ -47,21 +47,8 @@ function getid(a) {
     console.log("id : "+id);
 }
 
-// var cs=null,
-//     csx=null,
-//     csWidth=null,
-//     csHeight=null,
-//     center1=null,
-//     cf=null,
-//     cfx=null,
-//     cfWidth=null,
-//     cfHeight=null,
-//     center2=null;
-
 var cs       = document.getElementById('myCanvas'),
     ctx      = cs.getContext('2d');
-    c1x = cs.getContext('2d');
-    c2x = cs.getContext('2d');
 ctx.strokeStyle = '#666';
 ctx.lineWidth = 8;
 
@@ -71,15 +58,6 @@ var topoffset2;
 var leftoffset2;
 var X1,Y1,X2,Y2;
     var triLen=10;
-
-var plusLen=
-    // 130/100
-1
-;
-var minusLen=
-    // 100/130
-1
-;
 
 
 var center_h=75;
@@ -110,44 +88,42 @@ $('#mv').on("click",".move",clickCircle);
             leftoffset2 = $(this).offset().left;
             X2 = leftoffset2 - cs.offsetLeft;//-
             Y2 = topoffset2 - cs.offsetTop;//+
+            X1+=center_h; Y1+=center_h; X2 += center_h; Y2 += center_h;
             var Xm, Ym;
-            // if (X1 <= X2) {
-            //     X1 *= plusLen;
-            //     X2 *= minusLen;
-            //     Xm = (X2 - X1) / 2;
-            // } else {
-            //     X1 *= minusLen;
-            //     X2 *= plusLen;
-            //     Xm = (X1 - X2) / 2;
-            // }
-            // if (Y1 <= Y2) {
-            //     Y1 *= minusLen;
-            //     Y2 *= plusLen;
-            //     Ym = (Y2 - Y1) / 2;
-            // } else {
-            //
-            //     Y1 *= plusLen;
-            //     Y2 *= minusLen;
-            //     Ym = (Y1 - Y2) / 2;
-            // }
+            if (X1 <= X2) {
+                Xm = (X2 + X1) / 2;
+            } else {
+                Xm = (X1 + X2) / 2;
+            }
+            if (Y1 <= Y2) {
+                Ym = (Y2 + Y1) / 2;
+            } else {
+                Ym = (Y1 + Y2) / 2;
+            }
             console.log("finish ");
             console.log(" leftoffset2 : " + leftoffset2 +
-                " X2 : " + X2 + " Y2 : " + Y2);
+                " X2 : " + X2 + " Y2 : " + Y2+"Xm : "+Xm+"Ym : "+Ym);
+            drawLine(X1,Y1,X2,Y2);
+        var alfa=(Y2-Y1)/-(X2-X1);
 
-            drawLine(X1 + center_h, Y1 + center_h, X2 + center_h, Y2 + center_h);
-            // drawtri(Xm, Ym, triLen);
+            var radians = Math.atan2(Y2-Y1, X2-X1);
+            // ラジアンを角度に変換
+            var degrees = radians * 180 / Math.PI;
+            // 表示オブジェクトの角度に反映
+
+        drawTriImage(Xm,Ym,degrees);
+            // drawtri(triLen,Xm, Ym, alfa);
             startfinish = "start";
-
         } else {
             console.log("else");
         }
     }
-
 function drawLine(x1,y1,x2,y2) {
     console.log("draw_now ");
     ctx.beginPath();
     if($('input[name=damRadio]:checked').val() === 'on') {
         ctx.setLineDash([5,5]);}
+
     // ctx.moveTo(leftOffset,topOffset);
     // ctx.lineTo(leftOffset2,topOffset2);
     // ctx.moveTo(X ,Y);
@@ -157,23 +133,43 @@ function drawLine(x1,y1,x2,y2) {
     ctx.closePath();
     ctx.stroke();
 
-    var a = (y2-y1)/(x2-x1);
-    var minus_a=-a;
+}
+function drawTriImage(m,n,degr){
+
+    ctx.beginPath();
+    var img = new Image();
+    img.src = "point.png";
+    ctx.drawImage(img, m, n,40,40);
+    // ctx.rotate(degr);
+    ctx.closePath();
+    ctx.stroke();
 
 }
 
-function drawtri(x,y,l) {
-    c1x.beginPath();
-    c1x.moveTo(x,y);//Y,X
-    c1x.lineTo(a,b);
-    c1x.closePath();
-    c1x.stroke();
+function drawtri(l,x0,y0,alf) {
 
-    c2x.beginPath();
-    c2x.moveTo(x,y);//Y,X
-    c2x.lineTo(a,b);
-    c2x.closePath();
-    c2x.stroke();
+        if(alf===0){
+            alf=0.01;
+        }
+
+    console.log("l : "+l);
+    console.log("x0 : "+x0);
+    console.log("y0 : "+y0);
+    console.log("alf : "+alf);
+        var n1= l*alf*Math.sqrt(1/(Math.pow(alf,2)+1))+y0;
+        var m1 = (y0-n1)/alf+x0;
+        var n2=l*alf*-Math.sqrt(1/(Math.pow(alf,2)+1))+y0;
+        var m2=(y0-n2)/alf+x0;
+
+        var a = m+l*Math.sqrt(1/(Math.pow(alf,2)+1));
+
+    console.log("m1 : "+m1);
+    console.log("n1 : "+n1);
+    console.log("m2 : "+m2);
+    console.log("n2 : "+n2);
+    console.log("alf : "+alf);
+drawLine(x0,y0,m1,h-n1);
+    drawLine(x0,y0,m2,h-n2);
 }
 
 

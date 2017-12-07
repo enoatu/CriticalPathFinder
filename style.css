@@ -14,11 +14,24 @@
         height: 100%;
     }
 
-    #myCanvas{
+    #myCanvas {
         position: absolute;
         /*width:100%;*/
         /*height: 100%;*/
         z-index: -100;
+    }
+    #pCanvas{
+        position: absolute;
+        /*width:100%;*/
+        /*height: 100%;*/
+        z-index: -10;
+    }
+    #p2Canvas{
+        position: absolute;
+        /*width:100%;*/
+        /*height: 100%;*/
+        z-index: -1;
+
     }
     h1{
     }
