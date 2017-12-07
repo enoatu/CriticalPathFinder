@@ -1,3 +1,7 @@
+var w=$('#wrap').width();
+var h=$('#wrap').height();
+$('#myCanvas').attr('width', w).attr('height', h);
+
 var countcir=2,
     alfa=[],
     todraw =false,
@@ -13,6 +17,8 @@ $('#ori').on('click',function () {//created move elements
     countcir++;
     move();
 });
+
+/////tool button //////
 
 $('#resetbutton').on('click',function () {
     location.reload();
@@ -32,6 +38,9 @@ $('#selectdraw').on('click',function () {
 }
 
 });
+
+/////////////////////////
+
 var id;
 function getid(a) {
     id=a.id;
@@ -51,66 +60,121 @@ function getid(a) {
 
 var cs       = document.getElementById('myCanvas'),
     ctx      = cs.getContext('2d');
-
+    c1x = cs.getContext('2d');
+    c2x = cs.getContext('2d');
 ctx.strokeStyle = '#666';
-ctx.lineWidth = 1;
+ctx.lineWidth = 8;
 
 var topoffset;
 var leftoffset;
-var topoffset_f;
-var leftoffset_f;
-var LR,TB,LR_f,TB_f;
+var topoffset2;
+var leftoffset2;
+var X1,Y1,X2,Y2;
+    var triLen=10;
+
+var plusLen=
+    // 130/100
+1
+;
+var minusLen=
+    // 100/130
+1
+;
+
+
+var center_h=75;
 console.log("cs.offsetTop : "+cs.offsetTop);
 console.log("cs.offsetLeft : "+cs.offsetLeft);
 
-    $('#mv').on("click",".move",function () {
 
-    console.log("startfinish : "+startfinish);
-    if(startfinish==="start"){//startpoint
-        topoffset =  $(this).offset().top;
-        leftoffset = $(this).offset().left;
-         LR = topoffset-cs.offsetTop;
-         TB = leftoffset-cs.offsetLeft;
-         LR=
+$('#mv').on("click",".move",clickCircle);
 
-        console.log("start "+
-                    " topoffset : "+topoffset+
-                    " leftoffset : "+leftoffset
-                    +" LR : "+LR+" TB : "+TB);
+    function clickCircle () {//click circle
 
-        startfinish="finish";
+        console.log("startfinish : " + startfinish);
+        if (startfinish === "start") {//startpoint
+            topoffset = $(this).offset().top;
+            leftoffset = $(this).offset().left;
+            X1 = leftoffset - cs.offsetLeft;//+
+            Y1 = topoffset - cs.offsetTop;//-
 
-    }else if(startfinish==="finish"){
-        topoffset_f =  $(this).offset().top;
-        leftoffset_f = $(this).offset().left;
-         LR_f =topoffset_f-cs.offsetTop;
-         TB_f = leftoffset_f-cs.offsetLeft;
+            console.log("start " +
+                " leftoffset : " + leftoffset +
+                " topoffset : " + topoffset +
+                " X1 : " + X1 + " Y1 : " + Y1);
 
-        console.log("finish ");
-        console.log(
+            startfinish = "finish";
 
-                        " leftoffset_f : "+leftoffset_f+
-                        " LR_f : "+LR_f+" TB_f : "+TB_f);
-        drawLine();
-        startfinish=null;
+        } else if (startfinish === "finish") {
+            topoffset2 = $(this).offset().top;
+            leftoffset2 = $(this).offset().left;
+            X2 = leftoffset2 - cs.offsetLeft;//-
+            Y2 = topoffset2 - cs.offsetTop;//+
+            var Xm, Ym;
+            // if (X1 <= X2) {
+            //     X1 *= plusLen;
+            //     X2 *= minusLen;
+            //     Xm = (X2 - X1) / 2;
+            // } else {
+            //     X1 *= minusLen;
+            //     X2 *= plusLen;
+            //     Xm = (X1 - X2) / 2;
+            // }
+            // if (Y1 <= Y2) {
+            //     Y1 *= minusLen;
+            //     Y2 *= plusLen;
+            //     Ym = (Y2 - Y1) / 2;
+            // } else {
+            //
+            //     Y1 *= plusLen;
+            //     Y2 *= minusLen;
+            //     Ym = (Y1 - Y2) / 2;
+            // }
+            console.log("finish ");
+            console.log(" leftoffset2 : " + leftoffset2 +
+                " X2 : " + X2 + " Y2 : " + Y2);
 
-    }else{
-        console.log("else");
+            drawLine(X1 + center_h, Y1 + center_h, X2 + center_h, Y2 + center_h);
+            // drawtri(Xm, Ym, triLen);
+            startfinish = "start";
+
+        } else {
+            console.log("else");
+        }
     }
-});
 
-var drawLine = function() {
+function drawLine(x1,y1,x2,y2) {
     console.log("draw_now ");
     ctx.beginPath();
+    if($('input[name=damRadio]:checked').val() === 'on') {
+        ctx.setLineDash([5,5]);}
     // ctx.moveTo(leftOffset,topOffset);
-    // ctx.lineTo(leftOffset_f,topOffset_f);
-    // ctx.moveTo(LR ,TB);
-    // ctx.lineTo(LR_f,TB_f);
-    ctx.moveTo(0 ,0);
-    ctx.lineTo(100,100);
+    // ctx.lineTo(leftOffset2,topOffset2);
+    // ctx.moveTo(X ,Y);
+    // ctx.lineTo(X2,Y2);
+    ctx.moveTo(x1,y1);//Y,X
+    ctx.lineTo(x2,y2);
     ctx.closePath();
     ctx.stroke();
-};
+
+    var a = (y2-y1)/(x2-x1);
+    var minus_a=-a;
+
+}
+
+function drawtri(x,y,l) {
+    c1x.beginPath();
+    c1x.moveTo(x,y);//Y,X
+    c1x.lineTo(a,b);
+    c1x.closePath();
+    c1x.stroke();
+
+    c2x.beginPath();
+    c2x.moveTo(x,y);//Y,X
+    c2x.lineTo(a,b);
+    c2x.closePath();
+    c2x.stroke();
+}
 
 
 
