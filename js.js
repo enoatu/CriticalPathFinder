@@ -57,7 +57,7 @@ var leftoffset;
 var topoffset2;
 var leftoffset2;
 var X1,Y1,X2,Y2;
-    var triLen=10;
+    var triLen=4;
 
 
 var center_h=75;
@@ -90,29 +90,36 @@ $('#mv').on("click",".move",clickCircle);
             Y2 = topoffset2 - cs.offsetTop;//+
             X1+=center_h; Y1+=center_h; X2 += center_h; Y2 += center_h;
             var Xm, Ym;
+            var X1_is_larger;
+            var Y1_is_larger;
             if (X1 <= X2) {
                 Xm = (X2 + X1) / 2;
+                X1_is_larger=false;
+
             } else {
                 Xm = (X1 + X2) / 2;
+                X1_is_larger=true;
             }
             if (Y1 <= Y2) {
                 Ym = (Y2 + Y1) / 2;
+                Y1_is_larger=false;
             } else {
                 Ym = (Y1 + Y2) / 2;
+                Y1_is_larger=true;
             }
             console.log("finish ");
             console.log(" leftoffset2 : " + leftoffset2 +
                 " X2 : " + X2 + " Y2 : " + Y2+"Xm : "+Xm+"Ym : "+Ym);
             drawLine(X1,Y1,X2,Y2);
-        var alfa=(Y2-Y1)/-(X2-X1);
+        var alfa=(Y2-Y1)/(X2-X1);//////////////////////
 
             var radians = Math.atan2(Y2-Y1, X2-X1);
             // ラジアンを角度に変換
             var degrees = radians * 180 / Math.PI;
             // 表示オブジェクトの角度に反映
 
-        drawTriImage(Xm,Ym,degrees);
-            // drawtri(triLen,Xm, Ym, alfa);
+        // drawTriImage(Xm,Ym,degrees);
+            drawtri(triLen,Xm, Ym, alfa);
             startfinish = "start";
         } else {
             console.log("else");
@@ -149,27 +156,40 @@ function drawTriImage(m,n,degr){
 function drawtri(l,x0,y0,alf) {
 
         if(alf===0){
-            alf=0.01;
+            alf=0.001;
         }
 
     console.log("l : "+l);
     console.log("x0 : "+x0);
     console.log("y0 : "+y0);
     console.log("alf : "+alf);
-        var n1= l*alf*Math.sqrt(1/(Math.pow(alf,2)+1))+y0;
-        var m1 = (y0-n1)/alf+x0;
-        var n2=l*alf*-Math.sqrt(1/(Math.pow(alf,2)+1))+y0;
-        var m2=(y0-n2)/alf+x0;
+    var M=Math.sqrt(1/(Math.pow(alf,2)+1));
+    var n1= l*alf*-M+y0; //branches
+    var m1 = (y0-(l*alf*-M+y0))/alf+x0;
+    var n2=l*alf*+M+y0;
+    var m2=(y0-(l*alf*+M+y0))/alf+x0;
 
-        var a = m+l*Math.sqrt(1/(Math.pow(alf,2)+1));
+    var a1 = l*M+x0;//ちょうてん候補x
+    var a2 = l*-M+x0;
+    var b1 =alf*(l*M)+y0;//ちょうてんこうほy
+    var b2 =alf*-(l*M)+y0;
+
+    var topx,topy;
+    if(Math.abs(X2-a1)>=Math.abs(X2-a2)){
+       topx= a2;
+    }else{topx=a1;}
+    if(Math.abs(Y2-b1)>=Math.abs(Y2-b2)){
+        topy= b2;
+    }else{topy=b1;}
+
 
     console.log("m1 : "+m1);
     console.log("n1 : "+n1);
     console.log("m2 : "+m2);
     console.log("n2 : "+n2);
     console.log("alf : "+alf);
-drawLine(x0,y0,m1,h-n1);
-    drawLine(x0,y0,m2,h-n2);
+drawLine(topx,topy,m1,h-n1);
+    drawLine(topx,topy,m2,h-n2);
 }
 
 
