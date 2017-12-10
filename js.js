@@ -57,7 +57,7 @@ var leftoffset;
 var topoffset2;
 var leftoffset2;
 var X1,Y1,X2,Y2;
-    var triLen=4;
+    var triLen=14;
 
 
 var center_h=75;
@@ -188,8 +188,14 @@ function drawtri(l,x0,y0,alf) {
     console.log("m2 : "+m2);
     console.log("n2 : "+n2);
     console.log("alf : "+alf);
-drawLine(topx,topy,m1,h-n1);
-    drawLine(topx,topy,m2,h-n2);
+    console.log("topx : "+topx);
+    console.log("topy : "+topy);
+var line1={x:m1,y:n1};
+var line2={x:m2,y:n2};
+    console.log("line1 : "+line1.x+" y "+line1.y);
+    console.log("line2 : "+line2.x+" y "+line2.y);
+    drawLine(topx,topy,line1.x,line1.y);
+    drawLine(topx,topy,line2.x,line2.y);
 }
 
 
