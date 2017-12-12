@@ -1,5 +1,9 @@
 var w=$('#wrap').width();
 var h=$('#wrap').height();
+var startArr=["x"];
+var endArr=["x"];
+var isDam=["x"];
+
 $('#myCanvas').attr('width', w).attr('height', h);
 
 var countcir=2,
@@ -11,14 +15,27 @@ move();
 function move(){
     $('.move').draggable();
 }
+
 $('#ori').on('click',function () {//created move elements
-    $('#mv').append("<div class='move cir' id='cir " +countcir+"' onclick='getid(this)'>" +
-        "<textarea placeholder='入力してください'></textarea></div>");
+    $('#mv').append("<div class='move cir make' id='" +countcir+"' onclick='getid(this)'><span>" +
+        // "<textarea placeholder='入力してください'></textarea></div>");
+        +countcir+"</span></div>");
+
     countcir++;
+    disp_start_end();
     move();
 });
 
-/////tool button //////
+function disp_start_end(){
+    if(countcir>2){
+        $($('.start').find('span')).html("1");
+
+        $($('.goal').find('span')).html(countcir);
+        $('.goal').attr('id', countcir);    }
+
+}
+
+/////tool button //////cir=dragabble
 
 $('#resetbutton').on('click',function () {
     location.reload();
@@ -50,7 +67,7 @@ function getid(a) {
 var cs       = document.getElementById('myCanvas'),
     ctx      = cs.getContext('2d');
 ctx.strokeStyle = '#666';
-ctx.lineWidth = 8;
+ctx.lineWidth = 4;
 
 var topoffset;
 var leftoffset;
@@ -60,7 +77,7 @@ var X1,Y1,X2,Y2;
     var triLen=14;
 
 
-var center_h=75;
+var center_h=85;
 console.log("cs.offsetTop : "+cs.offsetTop);
 console.log("cs.offsetLeft : "+cs.offsetLeft);
 
@@ -68,6 +85,7 @@ console.log("cs.offsetLeft : "+cs.offsetLeft);
 $('#mv').on("click",".move",clickCircle);
 
     function clickCircle () {//click circle
+    var startId,endId;
 
         console.log("startfinish : " + startfinish);
         if (startfinish === "start") {//startpoint
@@ -82,7 +100,8 @@ $('#mv').on("click",".move",clickCircle);
                 " X1 : " + X1 + " Y1 : " + Y1);
 
             startfinish = "finish";
-
+           startId= $(this).attr("id")
+            startArr.push(startId);
         } else if (startfinish === "finish") {
             topoffset2 = $(this).offset().top;
             leftoffset2 = $(this).offset().left;
@@ -113,23 +132,31 @@ $('#mv').on("click",".move",clickCircle);
             drawLine(X1,Y1,X2,Y2);
         var alfa=(Y2-Y1)/(X2-X1);//////////////////////
 
-            var radians = Math.atan2(Y2-Y1, X2-X1);
-            // ラジアンを角度に変換
-            var degrees = radians * 180 / Math.PI;
-            // 表示オブジェクトの角度に反映
 
         // drawTriImage(Xm,Ym,degrees);
             drawtri(triLen,Xm, Ym, alfa);
             startfinish = "start";
+
+             endId=$(this).attr("id"); endArr.push();
+            dispTextArea(Xm-80,Ym-40,startId,endId);
         } else {
             console.log("else");
         }
+
+
     }
+
+
 function drawLine(x1,y1,x2,y2) {
     console.log("draw_now ");
     ctx.beginPath();
     if($('input[name=damRadio]:checked').val() === 'on') {
-        ctx.setLineDash([5,5]);}
+        ctx.setLineDash([5,5]);
+        isDam.push(true);
+    }else{
+        ctx.setLineDash([0,0]);
+      isDam.push(false);
+    }
 
     // ctx.moveTo(leftOffset,topOffset);
     // ctx.lineTo(leftOffset2,topOffset2);
@@ -139,24 +166,13 @@ function drawLine(x1,y1,x2,y2) {
     ctx.lineTo(x2,y2);
     ctx.closePath();
     ctx.stroke();
-
 }
-function drawTriImage(m,n,degr){
 
-    ctx.beginPath();
-    var img = new Image();
-    img.src = "point.png";
-    ctx.drawImage(img, m, n,40,40);
-    // ctx.rotate(degr);
-    ctx.closePath();
-    ctx.stroke();
-
-}
 
 function drawtri(l,x0,y0,alf) {
 
         if(alf===0){
-            alf=0.001;
+            alf=0.0001;
         }
 
     console.log("l : "+l);
@@ -175,7 +191,7 @@ function drawtri(l,x0,y0,alf) {
     var b2 =alf*-(l*M)+y0;
 
     var topx,topy;
-    if(Math.abs(X2-a1)>=Math.abs(X2-a2)){
+    if(Math.abs(X2-a1)>=Math.abs(X2-a2)){//向き
        topx= a2;
     }else{topx=a1;}
     if(Math.abs(Y2-b1)>=Math.abs(Y2-b2)){
@@ -200,37 +216,38 @@ var line2={x:m2,y:n2};
 
 
 
-// // 変数定義
-// var cs       = document.getElementById('myCanvas'),
-//     ctx      = cs.getContext('2d'),
-//     csWidth  = cs.width,
-//     csHeight = cs.height,
-//     center   = {
-//         x: csWidth / 2,
-//         y: csHeight / 2
-//     };
-//
-// // 線の基本スタイル
-// ctx.strokeStyle = '#666';
-// ctx.lineWidth = 10;
-//
-// // 横線を引く
-// var drawHorizontalLine = function() {
-//     ctx.beginPath();
-//     ctx.moveTo(0, center.y);
-//     ctx.lineTo(csWidth, center.y);
-//     ctx.closePath();
-//     ctx.stroke();
-// };
-//
-// // 縦線を引く
-// var drawVerticalLine = function() {
-//     ctx.beginPath();
-//     ctx.moveTo(center.x, 0);
-//     ctx.lineTo(center.x, csHeight);
-//     ctx.closePath();
-//     ctx.stroke();
-// };
-//
-// drawHorizontalLine();
-// drawVerticalLine();
+
+function dispTextArea(Xm,Ym,startId,endId) {
+    $('#wrap').append("<div class='dayTextArea' id='" +startId+'_'+endId+"' onclick='getid(this)' style='" +
+        "position: absolute;" +
+        "left:"+Xm+"px;"+
+        "top:"+Ym+"px;"+
+       "'>"+
+    "<textarea placeholder='入力してください'></textarea></div>")
+}
+
+
+$('#calcButton').on("click",function () {
+        console.log("ARR=>[[");
+    for(var i=1;i<startArr.length;i++){
+        console.log(i);
+        console.log("startArr[i] : "+startArr[i]);
+        console.log("endArr[i]: "+endArr[i]);
+        console.log("");
+
+    }
+
+    console.log("]]");
+});
+/////////////////////////////////////////////////////////
+
+
+var dayarr=[];
+
+function inNum(start,end) {
+    var cnct={s:start,e:end};
+
+    !function() {numArr.push(cnct);}
+}
+
+

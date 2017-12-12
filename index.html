@@ -12,15 +12,13 @@
 <body>
 <div id="wrap">
     <canvas id="myCanvas"></canvas>
-    <canvas id="pCanvas"></canvas>
-    <canvas id="p2Canvas"></canvas>
     <div id="tooltab">
         <div id="m">
             <div id="ori" class="cir">押す</div>
         </div>
         <div id="mv">
-            <div id="start" class="move cir"><span>start</span ></div>
-            <div id="goal" class="move cir"><span>goal</span></div>
+            <div id="start" class="move cir start"><span>start</span ></div>
+            <div id="goal" class="move cir goal"><span>goal</span></div>
 
         </div>
 
@@ -35,12 +33,19 @@
             </label>
             </div>
 
-            <label id="damn">
+            <div id="selectdam">
+            <label id="damon">
                ダミー作業描画 ON<input type="radio"  name="damRadio" value="on">
             </label>
             <label id="damoff">
                 OFF<input type="radio"  name="damRadio" value="off" checked>
             </label>
+            </div>
+
+            <label id="calcstart">
+                <button id="calcButton" >計算スタート</button>
+            </label>
+
         </div>
 
     </div>

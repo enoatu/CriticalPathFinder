@@ -41,7 +41,7 @@
         display:flex;
         height:300px;
         width:100%;
-        background-color: rgba(255,45,45,0.3);
+        background-color: rgba(255,45,45,0);
     }
     #mv{
         display: flex;
@@ -53,7 +53,7 @@
     }
 
     #field{
-        background-color: rgba(219, 255, 66, 0.3);
+        background-color: rgba(219, 255, 66, 0);
 
         height:1000px;
         width:100%;
@@ -69,26 +69,28 @@
         cursor:pointer;
 
     }
-    textarea{
+    .make{
         font-size: 3em;
-        width:70%;
-        height:70%;
+
+        line-height: 150px;
+        text-align: center;
+
     }
     #ori{
-        font-size: 2em;
+        font-size: 3em;
         text-align: center;
         line-height: 150px;
     }
-    #start{
-        font-size: 2em;
+    .start{
+        font-size: 3em;
         text-align: center;
         line-height: 150px;
         position: absolute;
         left:5%;
         top:50%;
     }
-    #goal{
-        font-size: 2em;
+    .goal{
+        font-size: 3em;
         text-align: center;
         line-height: 150px;
         position: absolute;
@@ -96,7 +98,11 @@
         top:50%;
     }
 
-
+    .dayTextArea >textarea{
+        width:40px;
+        height:40px;
+        font-size:2em;
+    }
 
 
 /*}*/
