@@ -234,7 +234,7 @@ $('#calcButton').on("click",function () {
         console.log("startArr[i] : "+startArr[i]);
         console.log("endArr[i]: "+endArr[i]);
         console.log("");
-
+        dayarr.;
     }
 
     console.log("]]");
