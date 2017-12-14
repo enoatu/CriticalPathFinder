@@ -100,7 +100,7 @@ $('#mv').on("click",".move",clickCircle);
                 " X1 : " + X1 + " Y1 : " + Y1);
 
             startfinish = "finish";
-           startId= $(this).attr("id")
+           startId= $(this).attr("id");
             startArr.push(startId);
         } else if (startfinish === "finish") {
             topoffset2 = $(this).offset().top;
@@ -234,7 +234,7 @@ $('#calcButton').on("click",function () {
         console.log("startArr[i] : "+startArr[i]);
         console.log("endArr[i]: "+endArr[i]);
         console.log("");
-        dayarr.;
+        // dayarr.;
     }
 
     console.log("]]");
